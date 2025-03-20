@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedBook - Запись к врачу</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .header-left, .header-right {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            float: right;
+        }
+
+        .header-right a {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background-color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            text-decoration: none;
+            color: #333;
+            font-size: 16px;
+            font-weight: 500;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .header-right a img {
+            width: 30px;
+            height: 30px;
+        }
+
+        .booking-section {
+            background-color: white;
+            padding: 40px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .booking-section h2 {
+            margin-bottom: 20px;
+            font-size: 28px;
+            color: #4CAF50;
+            text-align: center;
+        }
+
+        .doctor-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+        }
+
+        .doctor-info img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 20px;
+        }
+
+        .doctor-details h3 {
+            margin: 5px 0;
+            font-size: 22px;
+            color: #333;
+        }
+
+        .doctor-details p {
+            font-size: 16px;
+            color: #666;
+        }
+
+        .appointment-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .symptoms-group {
+            margin-top: 20px;
+        }
+
+        .symptoms-group label {
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .symptoms-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .symptoms-option {
+            display: flex;
+            align-items: center;
+        }
+
+        .symptoms-option input {
+            margin-right: 8px;
+        }
+
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            text-decoration: none;
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+
+        .messages {
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            list-style-type: none;
+        }
+
+        .message {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+
+        .success {
+            background-color: #dff0d8;
+            color: #3c763d;
+            border: 1px solid #d6e9c6;
+        }
+
+        .error {
+            background-color: #f2dede;
+            color: #a94442;
+            border: 1px solid #ebccd1;
+        }
+
+        .no-symptoms {
+            margin-bottom: 15px;
+            font-style: italic;
+            color: #777;
+        }
+
+        .custom-symptoms {
+            margin-top: 20px;
+        }
+
+        .custom-symptoms label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .custom-symptoms textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            resize: vertical;
+        }
+
+        .custom-symptoms-text {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 5px;
+        }
+
+        .unavailable {
+            color: #999;
+            background-color: #f5f5f5;
+        }
+
+        .date-info {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+            font-style: italic;
+        }
+
+        .profile-icon img, .doctors-icon img, .reg-doctors-icon img, .contact-icon img {
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 40px 0;
+            margin-top: auto;
+        }
+
+        .footer-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .footer-info, .footer-social {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 20px;
+        }
+
+        .footer-info h3, .footer-social h3 {
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .footer-info p {
+            margin: 5px 0;
+        }
+
+        .footer-social .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .footer-social .social-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: white;
+        }
+
+        .footer-social .social-icons a img {
+            width: 40px;
+            height: 40px;
+            transition: transform 0.2s ease;
+        }
+
+        .footer-social .social-icons a:hover img {
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 768px) {
+            .header-right {
+                float: none;
+                margin-top: 10px;
+                justify-content: center;
+            }
+
+            .header-left {
+                text-align: center;
+                display: block;
+            }
+
+            .footer-info, .footer-social {
+                width: 100%;
+                margin-bottom: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-left">
+                <a href="{% url 'index' %}" style="text-decoration: none; color: white;">
+                    <h1>MedBook</h1>
+                </a>
+            </div>
+            <div class="header-right">
+                <a href="{% url 'all_doctors' %}" class="doctors-icon">
+                    {% load static %}
+                    <img src="{% static 'images/doctors-icon.png' %}" alt="Список">
+                    <span>Список врачей</span>
+                </a>
+                <a href="{% url 'smart_search' %}" class="reg-doctors-icon">
+                    {% load static %}
+                    <img src="{% static 'images/reg-doctors-icon.png' %}">
+                    <span>Умный поиск</span>
+                </a>
+                <a href="{% url 'contact' %}" class="contact-icon">
+                    {% load static %}
+                    <img src="{% static 'images/contact-icon.png' %}" alt="Контакты">
+                    <span>Контакты</span>
+                </a>
+                <a href="{% url 'profile' %}" class="profile-icon">
+                    {% load static %}
+                    <img src="{% static 'images/profile-icon.png' %}" alt="Профиль">
+                    <span>Профиль</span>
+                </a> 
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">  
+            {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="message {% if message.tags %}{{ message.tags }}{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            
+            <section class="booking-section">  
+                <h2>Запись на прием</h2>
+
+                <div class="doctor-info">  
+                    {% if doctor.photo %}  
+                        <img src="{{ doctor.photo.url }}" alt="Фото врача">  
+                    {% else %}  
+                        <img src="/media/images/default-doctor.png" alt="Фото врача">  
+                    {% endif %}  
+                    <div class="doctor-details">  
+                        <h3>{{ doctor.name }}</h3>  
+                        <p>Специализация: {{ doctor.specialization }}</p>  
+                    </div>  
+                </div>  
+
+                <form method="post" class="appointment-form">  
+                    {% csrf_token %}  
+                    <div class="form-group">  
+                        <label for="id_date">Дата</label>
+                        <p class="date-info">Доступна запись с сегодняшнего дня на неделю вперёд</p>
+                        <input type="date" name="date" id="id_date" required 
+                            min="{{ min_date }}" max="{{ max_date }}" 
+                            value="{{ selected_date }}">
+                    </div>  
+        
+                    <div class="form-group">
+                        <label for="id_time">Время</label>
+                        <select name="time" id="id_time" class="form-control">
+                            {% for value, label in form.time.field.choices %}
+                                <option value="{{ value }}">{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                                     
+        
+                    <div class="symptoms-group">  
+                        <label>Выберите симптомы</label>  
+                        {% if related_symptoms %}  
+                            <div class="symptoms-options">  
+                                {% for symptom in related_symptoms %}  
+                                    <div class="symptoms-option">  
+                                        <input type="checkbox" name="symptoms" id="symptom_{{ symptom.id }}" value="{{ symptom.id }}">  
+                                        <label for="symptom_{{ symptom.id }}">{{ symptom.name }}</label>  
+                                    </div>  
+                                {% endfor %}  
+                            </div>  
+                        {% else %}  
+                            <p class="no-symptoms">Для данного врача симптомы не указаны.</p>  
+                        {% endif %}  
+                    </div>                          
+        
+                    <div class="custom-symptoms">  
+                        <label for="id_custom_symptoms">Дополнительные симптомы</label>  
+                        <textarea name="custom_symptoms" id="id_custom_symptoms" rows="4"></textarea>  
+                    </div>  
+        
+                    <button type="submit" class="btn">Записаться</button>  
+                </form>  
+            </section>  
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-info">
+                <h3>Контакты</h3>
+                <p>Телефон: +7 (123) 456-78-90</p>
+                <p>Email: fi.sp@yandex.ru</p>
+                <p>Адрес: г. Ковров, ул. Ватутина, 90</p>
+            </div>
+            <div class="footer-social">
+                <h3>Мы в соцсетях</h3>
+                <div class="social-icons">
+                    <a href="https://vk.com" target="_blank">
+                        {% load static %}
+                        <img src="{% static 'images/vk.png' %}" alt="ВКонтакте">
+                    </a>
+                    <a href="https://t.me/doctor_projects" target="_blank">
+                        {% load static %}
+                        <img src="{% static 'images/tg.png' %}" alt="Telegram">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
+        }
+       document.getElementById("id_date").addEventListener("change", function() {
+        let date = this.value;
+        let doctorId = "{{ doctor.id }}";
+        
+        fetch(`/get-available-times/?date=${date}&doctor=${doctorId}`)
+            .then(response => response.json())
+            .then(data => {
+                let timeSelect = document.getElementById("id_time");
+                timeSelect.innerHTML = "";  // Clear current options
+                data.times.forEach(time => {
+                    let option = document.createElement("option");
+                    option.value = time;
+                    option.textContent = time;
+                    timeSelect.appendChild(option);
+                });
+            });
+    });
+    </script>
+</body>
+</html>

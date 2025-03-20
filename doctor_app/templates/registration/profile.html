@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedBook - Профиль</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .header-left, .header-right {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            float: right;
+        }
+
+        .header-right a {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background-color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            text-decoration: none;
+            color: #333;
+            font-size: 16px;
+            font-weight: 500;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .header-right a img {
+            width: 30px;
+            height: 30px;
+        }
+
+        .profile-section {
+            background-color: white;
+            padding: 40px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-section h2 {
+            margin-bottom: 20px;
+            font-size: 28px;
+            color: #4CAF50;
+            text-align: center;
+        }
+
+        .profile-info {
+            margin-bottom: 40px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+        }
+
+        .profile-info h3 {
+            margin-top: 0;
+            color: #4CAF50;
+        }
+
+        .info-row {
+            margin-bottom: 10px;
+        }
+
+        .info-label {
+            font-weight: 500;
+            display: inline-block;
+            width: 150px;
+        }
+
+        .appointments-list {
+            margin-top: 30px;
+        }
+
+        .appointments-list h3 {
+            margin-bottom: 20px;
+            color: #4CAF50;
+        }
+
+        .appointment-card {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .appointment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .appointment-header h4 {
+            margin: 0;
+            color: #333;
+        }
+
+        .appointment-date {
+            font-weight: 500;
+            color: #4CAF50;
+        }
+
+        .appointment-details p {
+            margin: 5px 0;
+        }
+
+        .appointment-symptoms {
+            margin-top: 10px;
+        }
+
+        .symptom-tag {
+            display: inline-block;
+            background-color: #e0f2e0;
+            color: #4CAF50;
+            padding: 5px 10px;
+            border-radius: 15px;
+            margin-right: 5px;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-danger {
+            background-color: #f44336;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .no-appointments {
+            text-align: center;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 40px 0;
+            margin-top: auto;
+        }
+
+        .footer-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .footer-info, .footer-social {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 20px;
+        }
+
+        .footer-info h3, .footer-social h3 {
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .footer-info p {
+            margin: 5px 0;
+        }
+
+        .footer-social .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .footer-social .social-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: white;
+        }
+
+        .footer-social .social-icons a img {
+            width: 40px;
+            height: 40px;
+            transition: transform 0.2s ease;
+        }
+
+        .footer-social .social-icons a:hover img {
+            transform: scale(1.1);
+        }
+
+        .logout-btn {
+            background-color: #f44336;
+            margin-top: 20px;
+        }
+
+        .logout-btn:hover {
+            background-color: #d32f2f;
+        }
+
+        .btn-danger {
+            background-color: #f44336;
+        }
+
+        .btn-danger:hover {
+            background-color: #d32f2f;
+        }
+
+        .appointment-actions {
+            margin-top: 15px;
+            text-align: right;
+        }
+
+        .profile-icon img, .doctors-icon img, .reg-doctors-icon img, .contact-icon img {
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+        }
+
+        @media (max-width: 768px) {
+            .header-right {
+                float: none;
+                margin-top: 10px;
+                justify-content: center;
+            }
+
+            .header-left {
+                text-align: center;
+                display: block;
+            }
+
+            .footer-info, .footer-social {
+                width: 100%;
+                margin-bottom: 15px;
+            }
+        }
+        .settings-container {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .settings-card {
+            flex: 1;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .settings-container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-left">
+                <a href="{% url 'index' %}" style="text-decoration: none; color: white;">
+                    <h1>MedBook</h1>
+                </a>
+            </div>
+            <div class="header-right">
+                <a href="{% url 'all_doctors' %}" class="doctors-icon">
+                    {% load static %}
+                    <img src="{% static 'images/doctors-icon.png' %}" alt="Список">
+                    <span>Список врачей</span>
+                </a>
+                <a href="{% url 'smart_search' %}" class="reg-doctors-icon">
+                    {% load static %}
+                    <img src="{% static 'images/reg-doctors-icon.png' %}">
+                    <span>Умный поиск</span>
+                </a>
+                <a href="{% url 'contact' %}" class="contact-icon">
+                    {% load static %}
+                    <img src="{% static 'images/contact-icon.png' %}" alt="Контакты">
+                    <span>Контакты</span>
+                </a> 
+                <a href="{% url 'profile' %}" class="profile-icon">
+                    {% load static %}
+                    <img src="{% static 'images/profile-icon.png' %}" alt="Профиль">
+                    <span>Профиль</span>
+                </a> 
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="profile-section">
+            <div class="container">
+                <h2>Личный кабинет</h2>
+                
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                
+                <div class="profile-info">
+                    <h3>Информация о пользователе</h3>
+                    <div class="info-row">
+                        <span class="info-label">Имя пользователя:</span>
+                        <span>{{ user.username }}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Email:</span>
+                        <span>{{ user.email }}</span>
+                    </div>
+                </div>
+                
+                <div class="settings-container">
+                    <div class="settings-card">
+                        <div class="form-card">
+                            <h3 class="form-title">Изменить пароль</h3>
+                            <form method="post" action="{% url 'change_password' %}">
+                                {% csrf_token %}
+                                
+                                {% if password_form.non_field_errors %}
+                                <ul class="errorlist">
+                                    {% for error in password_form.non_field_errors %}
+                                    <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                                {% endif %}
+                                
+                                <div class="form-group">
+                                    <label for="{{ password_form.old_password.id_for_label }}">Текущий пароль:</label>
+                                    {{ password_form.old_password }}
+                                    {% if password_form.old_password.errors %}
+                                    <ul class="errorlist">
+                                        {% for error in password_form.old_password.errors %}
+                                        <li>{{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="{{ password_form.new_password1.id_for_label }}">Новый пароль:</label>
+                                    {{ password_form.new_password1 }}
+                                    {% if password_form.new_password1.errors %}
+                                    <ul class="errorlist">
+                                        {% for error in password_form.new_password1.errors %}
+                                        <li>{{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                    {% endif %}
+                                    <div class="help-text">{{ password_form.new_password1.help_text }}</div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="{{ password_form.new_password2.id_for_label }}">Подтверждение нового пароля:</label>
+                                    {{ password_form.new_password2 }}
+                                    {% if password_form.new_password2.errors %}
+                                    <ul class="errorlist">
+                                        {% for error in password_form.new_password2.errors %}
+                                        <li>{{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                    {% endif %}
+                                </div>
+                                
+                                <button type="submit" class="btn btn-submit">Изменить пароль</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="appointments-list">
+                    <h3>Мои записи</h3>
+                    
+                    {% if appointments %}
+                        {% for appointment in appointments %}
+                        <div class="appointment-card">
+                            <div class="appointment-header">
+                                <h4>{{ appointment.doctor.name }} - {{ appointment.doctor.specialization }}</h4>
+                                <span class="appointment-date">{{ appointment.date|date:"d.m.Y" }} в {{ appointment.time|time:"H:i" }}</span>
+                            </div>
+                            <div class="appointment-details">
+                                {% if appointment.symptoms.all %}
+                                    <div class="appointment-symptoms">
+                                        <p>Выбранные симптомы:</p>
+                                        {% for symptom in appointment.symptoms.all %}
+                                            <span class="symptom-tag">{{ symptom.name }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                        
+                                {% if appointment.custom_symptoms_text %}
+                                    <p>Описанные симптомы:</p>
+                                    <p class="custom-symptoms-text">{{ appointment.custom_symptoms_text }}</p>
+                                {% endif %}
+                            </div>
+                            <div class="appointment-actions">
+                                <a href="{% url 'delete_appointment' appointment.id %}" 
+                                   class="btn btn-danger" 
+                                   onclick="return confirm('Вы уверены, что хотите отменить запись?')">
+                                    Отменить запись
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    {% else %}
+                        <div class="no-appointments">
+                            <p>У вас пока нет записей к врачам.</p>
+                            <a href="{% url 'all_doctors' %}" class="btn">Записаться на прием</a>
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <div style="text-align: center; margin-top: 30px;">
+                    <a href="{% url 'logout' %}" class="btn logout-btn">Выйти из аккаунта</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-info">
+                <h3>Контакты</h3>
+                <p>Телефон: +7 (123) 456-78-90</p>
+                <p>Email: fi.sp@yandex.ru</p>
+                <p>Адрес: г. Ковров, ул. Ватутина, 90</p>
+            </div>
+            <div class="footer-social">
+                <h3>Мы в соцсетях</h3>
+                <div class="social-icons">
+                    <a href="https://vk.com" target="_blank">
+                        {% load static %}
+                        <img src="{% static 'images/vk.png' %}" alt="ВКонтакте">
+                    </a>
+                    <a href="https://t.me/doctor_projects" target="_blank">
+                        {% load static %}
+                        <img src="{% static 'images/tg.png' %}" alt="Telegram">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

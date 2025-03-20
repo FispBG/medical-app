@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedBook - Авторизация</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .header-left, .header-right {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .header-right {
+            float: right;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-right a {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background-color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            text-decoration: none;
+            color: #333;
+            font-size: 16px;
+            font-weight: 500;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .header-right a img {
+            width: 30px;
+            height: 30px;
+        }
+
+        .doctors-icon {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .reg-doctors-icon {
+            background-color: #ff9800;
+            color: white;
+        }
+
+        .profile-icon {
+            background-color: #2196F3;
+            color: white;
+        }
+
+        .doctors-icon:hover {
+            background-color: #45a049;
+        }
+
+        .reg-doctors-icon:hover {
+            background-color: #e68900;
+        }
+
+        .profile-icon:hover {
+            background-color: #1976D2;
+        }
+
+        .profile-icon img, .doctors-icon img, .reg-doctors-icon img, .contact-icon img {
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-section {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            margin: 30px auto;
+        }
+
+        .login-section h2 {
+            font-size: 28px;
+            color: #4CAF50;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .login-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            margin-top: 10px;
+            font-weight: 500;
+        }
+
+        .login-button:hover {
+            background-color: #45a049;
+        }
+
+        .register-link {
+            margin-top: 15px;
+            display: inline-block;
+            color: #2196F3;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .register-link:hover {
+            text-decoration: underline;
+        }
+
+        .errorlist {
+            color: #f44336;
+            list-style: none;
+            padding: 0;
+            margin: 5px 0;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        form p {
+            margin: 0 0 12px 0;
+            text-align: left;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 40px 0;
+            margin-top: auto;
+        }
+
+        .footer-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .footer-info, .footer-social {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 20px;
+        }
+
+        .footer-info h3, .footer-social h3 {
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .footer-info p {
+            margin: 5px 0;
+        }
+
+        .footer-social .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .footer-social .social-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: white;
+        }
+
+        .footer-social .social-icons a img {
+            width: 40px;
+            height: 40px;
+            transition: transform 0.2s ease;
+        }
+
+        .footer-social .social-icons a:hover img {
+            transform: scale(1.1);
+        }
+
+        @media screen and (min-height: 600px) {
+            body {
+                height: 100vh;
+                overflow-y: auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-right {
+                float: none;
+                margin-top: 10px;
+                justify-content: center;
+            }
+
+            .header-left {
+                text-align: center;
+                display: block;
+            }
+
+            .footer-info, .footer-social {
+                width: 100%;
+                margin-bottom: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-left">
+                <a href="{% url 'index' %}" style="text-decoration: none; color: white;">
+                    <h1>MedBook</h1>
+                </a>
+            </div>
+            <div class="header-right">
+                <a href="{% url 'all_doctors' %}" class="doctors-icon">
+                    {% load static %}
+                    <img src="{% static 'images/doctors-icon.png' %}" alt="Список">
+                    <span>Список врачей</span>
+                </a>
+                <a href="{% url 'smart_search' %}" class="reg-doctors-icon">
+                    {% load static %}
+                    <img src="{% static 'images/reg-doctors-icon.png' %}">
+                    <span>Умный поиск</span>
+                </a>
+                <a href="{% url 'contact' %}" class="contact-icon">
+                    {% load static %}
+                    <img src="{% static 'images/contact-icon.png' %}" alt="Контакты">
+                    <span>Контакты</span>
+                </a> 
+                <a href="{% url 'profile' %}" class="profile-icon">
+                    {% load static %}
+                    <img src="{% static 'images/profile-icon.png' %}" alt="Профиль">
+                    <span>Профиль</span>
+                </a>                
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <section class="login-section">
+                <h2>Авторизация</h2>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="login-button">Войти</button>
+                </form>
+                <a href="{% url 'register' %}" class="register-link">Нет аккаунта? Зарегистрироваться</a>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-info">
+                <h3>Контакты</h3>
+                <p>Телефон: +7 (123) 456-78-90</p>
+                <p>Email: fi.sp@yandex.ru</p>
+                <p>Адрес: г. Ковров, ул. Ватутина, 90</p>
+            </div>
+            <div class="footer-social">
+                <h3>Мы в соцсетях</h3>
+                <div class="social-icons">
+                    <a href="https://vk.com" target="_blank">
+                        {% load static %}
+                        <img src="{% static 'images/vk.png' %}" alt="ВКонтакте">
+                    </a>
+                    <a href="https://t.me/doctor_projects" target="_blank">
+                        {% load static %}
+                        <img src="{% static 'images/tg.png' %}" alt="Telegram">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

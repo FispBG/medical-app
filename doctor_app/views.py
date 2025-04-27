@@ -61,6 +61,7 @@ def all_doctors(request):
         "selected_specialization": specialization
     })
 
+@login_required
 def book_appointment(request, doctor_id):
     doctor = get_object_or_404(Doctor, id=doctor_id)
     
@@ -359,36 +360,28 @@ def smart_search(request):
             context['searched'] = True
             context['description'] = description
             
-            # Get all symptoms from the database
             all_symptoms = Symptom.objects.all()
             
-            # Simple keyword matching algorithm
             found_symptoms = []
             for symptom in all_symptoms:
-                # Create pattern to match the symptom name or variations
                 pattern = r'\b' + re.escape(symptom.name.lower()) + r'\b'
                 if re.search(pattern, description.lower()):
                     found_symptoms.append(symptom)
                     
-                # Check for common variations/misspellings
                 words = symptom.name.lower().split()
                 if len(words) > 1:
-                    # For multi-word symptoms, check if most words are present
                     matches = sum(1 for word in words if word in description.lower())
-                    if matches >= len(words) * 0.7:  # 70% match threshold
+                    if matches >= len(words) * 0.7:
                         if symptom not in found_symptoms:
                             found_symptoms.append(symptom)
             
-            # Find specialist types based on matched symptoms
             specialist_scores = {}
             
-            # Method 1: Direct symptom-doctor relationships
             for symptom in found_symptoms:
                 for doctor in symptom.related_doctors.all():
                     specialization = doctor.specialization
                     specialist_scores[specialization] = specialist_scores.get(specialization, 0) + 1
             
-            # Method 2: Symptom groups
             for symptom in found_symptoms:
                 symptom_groups = symptom.doctor_groups.all()
                 for group in symptom_groups:
@@ -396,14 +389,12 @@ def smart_search(request):
                         specialization = doctor.specialization
                         specialist_scores[specialization] = specialist_scores.get(specialization, 0) + 1
             
-            # If no symptoms found, try semantic matching with specializations
             if not specialist_scores:
                 specializations = dict(Doctor.SPECIALIZATION_CHOICES)
                 for spec_key in specializations:
                     if spec_key.lower() in description.lower():
                         specialist_scores[spec_key] = specialist_scores.get(spec_key, 0) + 5
                     
-                    # Additional keywords for each specialization
                     keywords = {
                         'Терапевт': ['простуда', 'грипп', 'температура', 'кашель', 'общее самочувствие', 'горло', 'боль в горле'],
                         'Кардиолог': ['сердце', 'давление', 'пульс', 'боль в груди', 'одышка', 'тахикардия', 'аритмия'],
@@ -416,25 +407,19 @@ def smart_search(request):
                             if keyword.lower() in description.lower():
                                 specialist_scores[spec_key] = specialist_scores.get(spec_key, 0) + 3
             
-            # Calculate percentage match
             if specialist_scores:
                 total_symptoms = len(found_symptoms) if found_symptoms else 1
                 max_score = max(specialist_scores.values())
                 
-                # Normalize scores
                 found_specialists = []
                 for spec, score in specialist_scores.items():
-                    # Calculate percentage (maximum 100%)
                     percentage = min(100, int((score / max_score) * 100))
                     found_specialists.append((spec, percentage))
                 
-                # Sort by score in descending order
                 found_specialists.sort(key=lambda x: x[1], reverse=True)
                 
-                # Limit to top 3 results
                 context['found_specialists'] = found_specialists[:3]
             
-            # Add found symptoms to context
             context['found_symptoms'] = [symptom.name for symptom in found_symptoms]
     
     return render(request, 'doctor/search.html', context)

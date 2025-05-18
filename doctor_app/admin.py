@@ -1,12 +1,6 @@
-
 from django import forms
 from django.contrib import admin
-from .models import Doctor, Symptom, Appointment, Contact, CustomUser,DoctorSymptomGroup
-
-class DoctorAdminForm(forms.ModelForm):
-    class Meta:
-        model = Doctor
-        fields = ['name', 'specialization', 'schedule', 'photo']
+from .models import Doctor, Symptom, Appointment, Contact, CustomUser, DoctorSymptomGroup
 
 @admin.register(DoctorSymptomGroup)
 class DoctorSymptomGroupAdmin(admin.ModelAdmin):
@@ -19,17 +13,25 @@ class DoctorForm(forms.ModelForm):
         fields = '__all__'
 
     def clean_specialization(self):
-        specialization = self.cleaned_data.get('specialization')
+        specialization = self.cleaned_data.get('specialization') # Получаем специализацию доктора (например, 'Терапевт')
         if specialization:
-            category = DoctorSymptomGroup.objects.filter(specialization=specialization).first()
+            # ИСПРАВЛЕННАЯ СТРОКА:
+            # Ищем DoctorSymptomGroup, у которой поле 'name' совпадает со специализацией доктора.
+            category = DoctorSymptomGroup.objects.filter(name=specialization).first()
+            
             if category:
+                # Если найдена соответствующая группа симптомов,
+                # устанавливаем связанные симптомы для данного экземпляра доктора.
+                # ВАЖНО: Это действие перезапишет любые симптомы,
+                # которые пользователь мог выбрать вручную в поле 'related_symptoms' в админке,
+                # если категория найдена.
                 self.instance.related_symptoms.set(category.symptoms.all())
         return specialization
 
 class DoctorAdmin(admin.ModelAdmin):
     form = DoctorForm
     list_display = ('name', 'specialization')
-    filter_horizontal = ('related_symptoms',)
+    filter_horizontal = ('related_symptoms',) # Позволяет редактировать related_symptoms в админке
 
 admin.site.register(Doctor, DoctorAdmin)
 admin.site.register(Symptom)
